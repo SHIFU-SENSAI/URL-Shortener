@@ -5,6 +5,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
 import {
   isValidUrl,
   isValidAlias,
+  isReservedAlias,
   generateShortCode,
 } from "@/lib/utils/url";
 
@@ -55,6 +56,14 @@ export async function POST(req: NextRequest) {
           {
             error:
               "Alias may only contain letters, numbers, hyphens, and underscores (max 50 chars).",
+          },
+          { status: 400 }
+        );
+      }
+      if (isReservedAlias(customAlias)) {
+        return NextResponse.json(
+          {
+            error: "That alias is a reserved system path. Please choose another.",
           },
           { status: 400 }
         );
@@ -119,9 +128,13 @@ export async function POST(req: NextRequest) {
     const ttlSeconds = expiration
       ? Math.floor((expiration.getTime() - Date.now()) / 1000)
       : undefined;
-    await setCache(shortCode, url, ttlSeconds);
+    
+    // Only cache if there's no expiration or if it expires in the future
+    if (!expiration || (ttlSeconds !== undefined && ttlSeconds > 0)) {
+      await setCache(shortCode, url, ttlSeconds);
+    }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+    const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/+$/, "");
     return NextResponse.json(
       {
         shortUrl: `${appUrl}/${shortCode}`,

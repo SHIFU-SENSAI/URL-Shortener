@@ -20,3 +20,22 @@ export function isValidUrl(url: string): boolean {
 export function isValidAlias(alias: string): boolean {
   return /^[a-zA-Z0-9_-]{1,50}$/.test(alias);
 }
+
+const RESERVED_ALIASES = new Set([
+  "api",
+  "stats",
+  "expired",
+  "not-found",
+  "favicon",
+  "favicon.ico",
+  "robots",
+  "robots.txt",
+  "sitemap",
+  "sitemap.xml",
+  "static",
+  "_next",
+]);
+
+export function isReservedAlias(alias: string): boolean {
+  return RESERVED_ALIASES.has(alias.toLowerCase());
+}

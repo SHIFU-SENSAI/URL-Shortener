@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 async function fetchStats(shortCode: string) {
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+    const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/+$/, "");
     const res = await fetch(`${appUrl}/api/stats/${shortCode}`, {
       cache: "no-store",
     });
@@ -33,7 +33,7 @@ export default async function StatsPage({ params }: PageProps) {
 
   if (!data) notFound();
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 
   return (
     <main className="min-h-screen bg-[#F7F5F2] flex flex-col">
