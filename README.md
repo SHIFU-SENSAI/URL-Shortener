@@ -11,7 +11,7 @@ A production-ready URL shortener built with **Next.js 15**, **PostgreSQL + Prism
 - 📊 Per-link click analytics
 - 🚦 Rate limiting (20 links/hour/IP via Redis)
 - 🔄 Fast redirects (Redis cache → DB fallback)
-- 📱 Fully responsive
+- 📱 Fully responsive 
 
 ## Tech Stack
 
