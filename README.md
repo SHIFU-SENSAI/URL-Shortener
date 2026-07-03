@@ -65,7 +65,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Deployment (Vercel)
 
-1. Push to GitHub.
+1. Push to GitHub
 2. Import the repo on [Vercel](https://vercel.com).
 3. Add environment variables in the Vercel dashboard.
 4. Deploy — Vercel handles the rest.
